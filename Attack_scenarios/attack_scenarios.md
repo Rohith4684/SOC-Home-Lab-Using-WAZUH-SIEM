@@ -1,47 +1,71 @@
-Attack Scenarios
+# Attack Scenarios
+
 This section documents the simulated attack scenarios used to test detection capabilities in the SOC lab.
 
-Scenario 1: Brute Force Login Attempts
-Steps
-Locked the Windows system
+---
 
-Entered incorrect password multiple times
+## Scenario 1: Brute Force Login Attempts
 
-Expected Behavior
-Multiple login failure logs generated
+### Steps:
 
-Brute force rule triggered
+* Locked the Windows system
+* Entered incorrect password multiple times
 
-Scenario 2: Account Discovery
-Commands used
-DOS
+### Expected Behavior:
 
+* Multiple login failure logs generated
+* Brute force rule triggered
+
+---
+
+## Scenario 2: Account Discovery
+
+### Commands used:
+
+```cmd
 net user
 whoami
-Expected Behavior
-Detection of account discovery activity
+```
 
-Alerts mapped to MITRE T1087
+### Expected Behavior:
 
-Scenario 3: PowerShell Execution
-Command
-PowerShell
+* Detection of account discovery activity
+* Alerts mapped to MITRE T1087
 
+---
+
+## Scenario 3: PowerShell Execution
+
+### Command:
+
+```powershell
 powershell -ExecutionPolicy Bypass -Command "Get-Process"
-Expected Behavior
-Process execution logs
+```
 
-Suspicious PowerShell detection
+### Expected Behavior:
 
-Scenario 4: Network Scanning (Kali Linux)
-Command
-Bash
+* Process execution logs
+* Suspicious PowerShell detection
 
+---
+
+## Scenario 4: Network Scanning (Kali Linux)
+
+### Command:
+
+```bash
 nmap -sS <target-ip>
-Expected Behavior
-Multiple connection attempts
+```
 
-Reconnaissance activity
+### Expected Behavior:
 
-Outcome
+* Multiple connection attempts
+* Reconnaissance activity
+
+---
+
+## Outcome
+
 These scenarios helped validate detection rules and understand how attacker behavior appears in logs.
+
+---
