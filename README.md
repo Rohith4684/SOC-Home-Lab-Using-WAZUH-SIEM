@@ -1,175 +1,153 @@
-# SOC-Home-Lab-Using-WAZUH-SIEM
-## Overview
+# 🛡️ SOC Home Lab using Wazuh
 
-This project presents a practical Security Operations Center (SOC) lab built using Wazuh SIEM. The main focus is to detect, analyze, and correlate security events so they form a clear understanding of attack behavior instead of viewing logs individually.
-
-The lab simulates real-world attack scenarios and emphasizes analyzing patterns over time.
+This project documents the setup and operation of a **Security Operations Center (SOC) home lab** using Wazuh. The goal was to move beyond just installing tools and actually understand how detection, logging, and investigation work in a real environment.
 
 ---
 
-## Objectives
+## 🎯 Objective
 
-* Set up a working SOC lab using Wazuh
-* Simulate common attack scenarios
+* Build a working SIEM lab from scratch
+* Understand how logs are generated and processed
 * Create custom detection rules
-* Correlate multiple events to detect real threats
-* Understand logs as a timeline rather than isolated entries
+* Simulate attacker behavior and analyze it
+* Learn how SOC analysts investigate events
 
 ---
 
-## Architecture
+## 🧩 Architecture Overview
 
-The lab setup includes:
+The lab consists of three main components:
 
-* Wazuh Manager – Central system for collecting and analyzing logs
-* Agent Machine (Windows/Linux) – Generates system and security logs
-* Attacker Machine (Kali Linux) – Used to simulate attacks
-* Virtualization – VirtualBox or VMware
+* **Wazuh Server (Ubuntu VM)** → SIEM (Manager + Indexer + Dashboard)
+* **Windows Endpoint** → Log source (Wazuh Agent + Sysmon)
+* **Kali Linux** → Attacker machine for simulation
 
----
-
-## Attack Scenarios Simulated
-
-### 1. Brute Force Attack
-
-* Multiple failed login attempts were generated
-* Detection is based on repeated failures within a short time period
-
-### 2. Successful Login After Failures
-
-* Sequence observed:
-
-  * Multiple failed logins
-  * Followed by a successful login
-* This indicates possible credential compromise
-
-### 3. Post-Compromise Activity
-
-* Command execution
-* System discovery actions
-
----
-
-## Detection Engineering
-
-### Custom Rule – Brute Force Detection
-
-* Detects repeated failed login attempts
-* Triggers an alert when a defined threshold is crossed
-
-### Correlation Rule – Compromise Detection
-
-* Connects:
-
-  * Failed login attempts
-  * Successful login event
-* Helps identify suspicious login patterns
-
----
-
-## Key Learning
-
-Detection is not about a single event. It is about connecting multiple events over time.
-
-This project demonstrates how analyzing logs as a sequence helps in identifying real attack behavior.
-
----
-
-## Example Attack Timeline
-
-1. Multiple failed login attempts
-2. Successful login from the same source
-3. Command execution
-4. System discovery activity
-
-This sequence suggests a possible system compromise.
-
----
-
-## Incident Analysis (Sample)
-
-### Summary
-
-A brute-force attack was simulated, followed by a successful login and further activity that indicates a possible compromise.
-
-### Indicators of Compromise (IOCs)
-
-* High number of failed login attempts
-* Successful login after failures
-* Unusual command execution
-
-### Detection Method
-
-* Custom Wazuh rules
-* Correlation between login events
-
-### Conclusion
-
-The SIEM successfully detected and linked multiple events to identify a multi-stage attack.
-
----
-
-## Tools and Technologies Used
-
-* Wazuh SIEM
-* Kali Linux
-* VirtualBox or VMware
-* Windows and Linux systems
-
----
-
-## Project Structure
+### 🔄 Data Flow
 
 ```
-SOC-Home-Lab-Using-WAZUH-SIEM/
-│
-├── README.md
-├── architecture/
-├── setup/
-├── detection-rules/
-├── attack-scenarios/
-├── logs/
-├── screenshots/
-└── reports/
+Attacker (Kali)
+      ↓
+Windows Endpoint
+      ↓
+Wazuh Agent
+      ↓
+Wazuh Manager
+      ↓
+Wazuh Indexer
+      ↓
+Wazuh Dashboard
 ```
 
 ---
 
-## Screenshots
+## ⚙️ Setup Summary
 
-Screenshots of the Wazuh dashboard, alerts, and logs are available here.
+* Installed Wazuh (all-in-one deployment) on Ubuntu VM
+* Connected Windows system as an agent
+* Integrated Sysmon for detailed telemetry
+* Configured log collection and verified dashboard visibility
 
----
-
-## Setup Guide
-
-Detailed setup steps are available in the setup folder.
-
----
-
-## Future Improvements
-
-* Add MITRE ATT&CK mapping
-* Simulate advanced attacks such as privilege escalation and persistence
-* Improve alerting and reporting
-* Enhance dashboards
+For full setup steps, refer to:
+📁 `setup/installation_steps.md`
 
 ---
 
-## Use Case
+## 🔥 Attack Simulations
 
-This project reflects real SOC analyst responsibilities such as:
+The following scenarios were simulated to test detection:
 
-* Log analysis
-* Threat detection
-* Event correlation
-* Incident investigation
+* Brute force login attempts
+* Account discovery (`net user`, `whoami`)
+* PowerShell execution
+* Network scanning using Kali Linux
+
+Details available in:
+📁 `attack-scenarios/attack_scenarios.md`
 
 ---
 
-## Author
-S Rohith Kumar
-Final Year B.Tech Computer Science Student
-Specialization: Cybersecurity
+## 🛡️ Detection Rules Implemented
+
+Custom rules were created to detect:
+
+* **Brute force attacks** (multiple failed logins)
+* **Possible account compromise** (fail → success pattern)
+* **Account discovery activity**
+
+Rules are documented here:
+📁 `detection-rules/detection_rules.md`
+
+---
+
+## 🔍 Log Analysis
+
+* Analyzed logs using Wazuh dashboard
+* Observed command-line activity and process behavior
+* Mapped detections to **MITRE ATT&CK techniques**
+* Practiced reading events as a timeline instead of isolated alerts
+
+Sample logs:
+📁 `logs/sample_logs.md`
+
+---
+
+## 📸 Screenshots
+
+This project includes screenshots showing:
+
+* Dashboard overview
+* Agent connectivity
+* Security alerts (brute force detection)
+* Log analysis (command-line details)
+* Custom rule configuration
+* Attack simulation from Kali
+
+📁 Available in: `screenshots/`
+
+---
+
+## 🧠 Key Learnings
+
+* Detection depends on log availability
+* SIEM works on patterns, not single events
+* Correlation is essential for meaningful alerts
+* Small configuration errors can break the system
+* Debugging is a major part of real SOC work
+
+---
+
+## ⚠️ Challenges Faced
+
+* XML syntax errors breaking Wazuh manager
+* Agent connectivity issues
+* Network configuration problems between VMs
+* Understanding correlation rules and tuning them
+
+---
+
+## 🚀 Outcome
+
+This project helped me understand the full SOC workflow:
+
+```
+Attack → Log Generation → Detection → Investigation
+```
+
+It shifted my focus from just running tools to actually understanding how security monitoring works in practice.
+
+---
+
+## 🔄 Future Improvements
+
+* Add more advanced detection rules
+* Simulate more realistic attack scenarios
+* Integrate threat intelligence
+* Improve correlation and reduce false positives
+
+---
+
+## 📌 Conclusion
+
+This SOC lab is a hands-on approach to learning cybersecurity fundamentals. It provides practical exposure to detection engineering, log analysis, and attacker behavior — bridging the gap between theory and real-world security operations.
 
 ---
