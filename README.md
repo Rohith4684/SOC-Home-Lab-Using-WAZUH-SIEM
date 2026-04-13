@@ -146,6 +146,16 @@ It shifted my focus from just running tools to actually understanding how securi
 
 ---
 
+## 📊 Results
+
+- Detected 5+ brute-force login attempts using custom Wazuh rules
+- Generated alerts for suspicious login behavior (failed → successful pattern)
+- Analyzed 1000+ log entries from Windows endpoint and Sysmon
+- Identified PowerShell execution and account enumeration activities
+- Successfully mapped multiple events to MITRE ATT&CK techniques
+
+---
+
 ## 📌 Conclusion
 
 This SOC lab is a hands-on approach to learning cybersecurity fundamentals. It provides practical exposure to detection engineering, log analysis, and attacker behavior — bridging the gap between theory and real-world security operations.
